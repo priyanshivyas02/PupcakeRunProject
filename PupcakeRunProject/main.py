@@ -67,7 +67,7 @@ page_list2 = ["P11.png", "P12.png", "P13.png", "P14.png", "P15.png",
 for page in page_list2:
     display_image(page)
     pygame.display.flip()
-    pygame.time.delay(1000)
+    pygame.time.delay(150)
 
 # Transition with button to P25
 # Transition with button to P26
