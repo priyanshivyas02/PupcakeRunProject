@@ -233,7 +233,7 @@ class Sprinkles(pygame.sprite.Sprite):
         self.rect.y = 357
         self.jump = False
         self.jump_height = 20
-        self.jump_count = 12.2
+        self.jump_count = 14
         self.animation_timer = pygame.time.get_ticks()
         self.animation_interval = 150
 
@@ -247,11 +247,11 @@ class Sprinkles(pygame.sprite.Sprite):
                 direction = 1
                 if self.jump_count < 0:
                     direction = -1
-                self.rect.y -= (self.jump_count ** 2) * direction / 3.2
+                self.rect.y -= (self.jump_count ** 2) * direction / 5
                 self.jump_count -= 1
             else:
                 self.jump = False
-                self.jump_count = 12.2
+                self.jump_count = 14
 
         # Ensure the dinosaur stays on the ground
         if self.rect.y > 357:
@@ -320,8 +320,8 @@ background1 = pygame.image.load(path1)
 # Making socre and highscore for Level 1
 score_system1 = Timer()
 
-# Function for Level 1 (Time = 25)
-time1 = 15
+# Function for Level 1 (Time = 20)
+time1 = 20
 def level1():
     # Auto transition from P6 to P9
     page_list1 = ["P5.png" ,"P6.png", "P7.png", "P8.png", "P9.png"]
@@ -425,8 +425,8 @@ background2 = pygame.image.load(path2)
 # Making socre and highscore for Level 2
 score_system2 = Timer()
 
-# Function for Level 2 (Time = 35)
-time2 = 25
+# Function for Level 2 (Time = 30)
+time2 = 30
 def level2():
     # Auto transition from P28 to P31
     page_list3 = ["P27.png", "P28.png", "P29.png", "P30.png", "P31.png"]
