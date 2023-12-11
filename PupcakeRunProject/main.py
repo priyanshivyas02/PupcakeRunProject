@@ -422,7 +422,7 @@ dictionary2 = os.path.join(os.path.dirname(os.path.realpath(__file__)))
 path2 = os.path.join(os.path.join(dictionary2), "Level2.png")
 background2 = pygame.image.load(path2)
 
-# Making socre and highscore for Level 2
+# Making socre and highscore for Level 2git a
 score_system2 = Timer()
 
 # Function for Level 2 (Time = 30)
