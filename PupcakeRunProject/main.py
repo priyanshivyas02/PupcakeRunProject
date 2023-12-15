@@ -5,13 +5,12 @@ import os
 import random
 import asyncio
 from pygame import mixer
+
 #Instantiate mixer
 mixer.init()
 
 #Load audio file
 mixer.music.load('cruising-down-8bit-lane-159615.mp3')
-
-
 
 #Set preferred volume
 mixer.music.set_volume(0.2)
