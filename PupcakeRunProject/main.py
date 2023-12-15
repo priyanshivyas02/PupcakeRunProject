@@ -3,6 +3,21 @@ import pygame
 import sys
 import os
 import random
+import asyncio
+from pygame import mixer
+#Instantiate mixer
+mixer.init()
+
+#Load audio file
+mixer.music.load('cruising-down-8bit-lane-159615.mp3')
+
+
+
+#Set preferred volume
+mixer.music.set_volume(0.2)
+
+#Play the music
+mixer.music.play()
 
 # INITIALIZING
 # Initialize Pygame
@@ -2117,8 +2132,8 @@ pygame.time.delay(150)
 
 # Auto transition from P11 to P24
 page_list2 = ["P11.png", "P12.png", "P13.png", "P14.png", "P15.png",
-              "P16.png", "P17.png", "P18.png", "P19.png", "P20.png",
-              "P21.png", "P22.png", "P23.png", "P24.png"]
+            "P16.png", "P17.png", "P18.png", "P19.png", "P20.png",
+            "P21.png", "P22.png", "P23.png", "P24.png"]
 
 # Looping through the list and displing each image with a delay
 for page in page_list2:
@@ -2196,8 +2211,8 @@ pygame.time.delay(150)
 
 # Auto transition from P33 to P46
 page_list4 = ["P33.png", "P34.png", "P35.png", "P36.png", "P37.png",
-              "P38.png", "P39.png", "P40.png", "P41.png", "P42.png",
-              "P43.png", "P44.png", "P45.png", "P46.png"]
+            "P38.png", "P39.png", "P40.png", "P41.png", "P42.png",
+            "P43.png", "P44.png", "P45.png", "P46.png"]
 
 # Looping through the list and displing each image with a delay
 for page in page_list4:
@@ -2279,8 +2294,8 @@ pygame.time.delay(150)
 
 # Auto transition from P33 to P46
 page_list5 = ["P55.png", "P56.png", "P57.png", "P58.png", "P59.png",
-              "P60.png", "P62.png", "P62.png", "P63.png", "P64.png",
-              "P65.png", "P66.png", "P67.png", "P68.png"]
+            "P60.png", "P62.png", "P62.png", "P63.png", "P64.png",
+            "P65.png", "P66.png", "P67.png", "P68.png"]
 
 # Looping through the list and displing each image with a delay
 for page in page_list5:
@@ -2444,7 +2459,7 @@ if click1(p74_button1):
 
 # Auto transition from P76 to P82
 page_list6 = ["P76.png", "P77.png", "P78.png", "P79.png", "P80.png",
-              "P81.png", "P82.png"]
+            "P81.png", "P82.png"]
 
 # Looping through the list and displing each image with a delay
 for page in page_list6:
@@ -2491,15 +2506,24 @@ if click1(p83_button1):
         repeat_levels_3_L_end()
 
 # Looping the game
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+async def main():
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-    # Updating the display
-    pygame.display.flip()
+        # Updating the display
+        pygame.display.flip()
+        await asyncio.sleep(0)
 
+
+
+
+asyncio.run(main())
 # Quitting
 pygame.quit()
 sys.exit()
+
+
+
