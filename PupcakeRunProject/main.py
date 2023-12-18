@@ -1,22 +1,10 @@
 # IMPORTS
+import asyncio
 import pygame
 import sys
 import os
 import random
 from pygame import mixer
-
-# MUSIC
-# Instantiate mixer
-mixer.init()
-
-# Load audio file
-mixer.music.load('Song.mp3')
-
-# Set preferred volume
-mixer.music.set_volume(0.2)
-
-# Play the music
-mixer.music.play(-1)
 
 # INITIALIZING
 # Initialize Pygame
@@ -2080,440 +2068,457 @@ def repeat_game5():
     # Repeating level 1, level 2, level 3, evil leprechaun, and then end
     repeat_levels_1_2_3_L_end()
 
-# GAME
-# Display P1
-display_page("P1.png")
-pygame.display.flip()
+# Function for web page
+async def main():
+    # GAME
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        
+        # MUSIC
+        # Instantiate mixer
+        mixer.init()
 
-# Button on P1
-p1_button1 = pygame.Rect(414, 281, 239, 53) # "Play"
+        # Load audio file
+        dictionary = os.path.join(os.path.dirname(os.path.realpath(__file__)))
+        path = os.path.join(os.path.join(dictionary), "Soundtrack.ogg")
+        mixer.music.load(path)
 
-# Transition with button to P2
-if click1(p1_button1):
-    display_page("P2.png")
-    pygame.display.flip()
+        # Set preferred volume
+        mixer.music.set_volume(0.5)
 
-# Buttons on P2
-p2_button1 = pygame.Rect(328, 393, 84, 45) # "Yes"
-p2_button2 = pygame.Rect(909, 531, 124, 53) # "Skip"
-p2_click = click2(p2_button1, p2_button2)
+        # Play the music
+        mixer.music.play(-1)
 
-# Transition with button 1 to P3
-if p2_click == 1:
-    display_page("P3.png")
-    pygame.display.flip()
-
-    # Button on P3
-    p3_button1 = pygame.Rect(328, 393, 84, 45) # "Ok"
-    
-    # Transition with button to P4
-    if click1(p3_button1):
-        display_page("P4.png")
+        # Display P1
+        display_page("P1.png")
         pygame.display.flip()
 
-        # Button on P4
-        p4_button1 = pygame.Rect(328, 393, 84, 45) # "Start"
-        
-        # Transition with button to P5
-        if click1(p4_button1):
+        # Button on P1
+        p1_button1 = pygame.Rect(414, 281, 239, 53) # "Play"
+
+        # Transition with button to P2
+        if click1(p1_button1):
+            display_page("P2.png")
+            pygame.display.flip()
+
+        # Buttons on P2
+        p2_button1 = pygame.Rect(328, 393, 84, 45) # "Yes"
+        p2_button2 = pygame.Rect(909, 531, 124, 53) # "Skip"
+        p2_click = click2(p2_button1, p2_button2)
+
+        # Transition with button 1 to P3
+        if p2_click == 1:
+            display_page("P3.png")
+            pygame.display.flip()
+
+            # Button on P3
+            p3_button1 = pygame.Rect(328, 393, 84, 45) # "Ok"
+            
+            # Transition with button to P4
+            if click1(p3_button1):
+                display_page("P4.png")
+                pygame.display.flip()
+
+                # Button on P4
+                p4_button1 = pygame.Rect(328, 393, 84, 45) # "Start"
+                
+                # Transition with button to P5
+                if click1(p4_button1):
+                    display_page("P5.png")
+                    pygame.display.flip()
+
+        # Transition with button 2 to P5
+        elif p2_click == 2:
             display_page("P5.png")
             pygame.display.flip()
 
-# Transition with button 2 to P5
-elif p2_click == 2:
-    display_page("P5.png")
-    pygame.display.flip()
+        # Auto transition from P5 to P9
+        # Play Level 1 on P10
+        level1()
+        pygame.time.delay(150)
 
-# Auto transition from P5 to P9
-# Play Level 1 on P10
-level1()
-pygame.time.delay(150)
+        # Auto transition from P11 to P24
+        page_list2 = ["P11.png", "P12.png", "P13.png", "P14.png", "P15.png",
+                    "P16.png", "P17.png", "P18.png", "P19.png", "P20.png",
+                    "P21.png", "P22.png", "P23.png", "P24.png"]
 
-# Auto transition from P11 to P24
-page_list2 = ["P11.png", "P12.png", "P13.png", "P14.png", "P15.png",
-              "P16.png", "P17.png", "P18.png", "P19.png", "P20.png",
-              "P21.png", "P22.png", "P23.png", "P24.png"]
+        # Looping through the list and displing each image with a delay
+        for page in page_list2:
+            display_page(page)
+            pygame.display.flip()
+            pygame.time.delay(150)
 
-# Looping through the list and displing each image with a delay
-for page in page_list2:
-    display_page(page)
-    pygame.display.flip()
-    pygame.time.delay(150)
+        # Button on P24
+        p24_button1 = pygame.Rect(454, 370, 84, 45) # "Ok"
 
-# Button on P24
-p24_button1 = pygame.Rect(454, 370, 84, 45) # "Ok"
+        # Transition with button to P25
+        if click1(p24_button1):
+            display_page("P25.png")
+            pygame.display.flip()
 
-# Transition with button to P25
-if click1(p24_button1):
-    display_page("P25.png")
-    pygame.display.flip()
+        # Buttons on P25
+        p25_button1 = pygame.Rect(128, 286, 176, 74) # "Light" - correct
+        p25_button2 = pygame.Rect(351, 286, 176, 74) # "Glass" - wrong
+        p25_button3 = pygame.Rect(176, 396, 303, 74) # "Rubberband" - wrong
+        p25_click = click3(p25_button1, p25_button2, p25_button3)
 
-# Buttons on P25
-p25_button1 = pygame.Rect(128, 286, 176, 74) # "Light" - correct
-p25_button2 = pygame.Rect(351, 286, 176, 74) # "Glass" - wrong
-p25_button3 = pygame.Rect(176, 396, 303, 74) # "Rubberband" - wrong
-p25_click = click3(p25_button1, p25_button2, p25_button3)
+        # Showing if correct (green) or wrong (red)
+        if p25_click == 1:
+            display_page("P25-1.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
+        elif p25_click == 2:
+            display_page("P25-2.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
+        elif p25_click == 3:
+            display_page("P25-3.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
 
-# Showing if correct (green) or wrong (red)
-if p25_click == 1:
-    display_page("P25-1.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
-elif p25_click == 2:
-    display_page("P25-2.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
-elif p25_click == 3:
-    display_page("P25-3.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
+        # Transition with button 2 and 3 to P85 then P1-1
+        if p25_click == 2 or p25_click == 3:
+            # Display P85
+            display_page("P85.png")
+            pygame.display.flip()
+            pygame.time.delay(1500)
 
-# Transition with button 2 and 3 to P85 then P1-1
-if p25_click == 2 or p25_click == 3:
-    # Display P85
-    display_page("P85.png")
-    pygame.display.flip()
-    pygame.time.delay(1500)
+            # Display P1-1
+            display_page("P1-1.png")
+            pygame.display.flip()
 
-    # Display P1-1
-    display_page("P1-1.png")
-    pygame.display.flip()
+            # Buttons on P1-1
+            p1_1_button1 = pygame.Rect(414, 281, 239, 53) # "Play"
+            p1_1_button2 = pygame.Rect(472, 352, 122, 35) # "Level 1"
+            p1_1_click = click2(p1_1_button1, p1_1_button2)
 
-    # Buttons on P1-1
-    p1_1_button1 = pygame.Rect(414, 281, 239, 53) # "Play"
-    p1_1_button2 = pygame.Rect(472, 352, 122, 35) # "Level 1"
-    p1_1_click = click2(p1_1_button1, p1_1_button2)
+            # Repeating whole game
+            if p1_1_click == 1:
+                repeat_game1()
+            # Repeating level 1
+            elif p1_1_click == 2:
+                repeat_level1()
 
-    # Repeating whole game
-    if p1_1_click == 1:
-        repeat_game1()
-    # Repeating level 1
-    elif p1_1_click == 2:
-        repeat_level1()
-
-# Transition to P26
-display_page("P26.png")
-pygame.display.flip()
-
-# Button on P26
-p26_button1 = pygame.Rect(454, 370, 84, 45) # "Start"
-
-# Transition with button to P27
-if click1(p26_button1):
-    display_page("P27.png")
-    pygame.display.flip()
-
-# Auto transition from P27 to P31
-# Play Level 2 on P32
-level2()
-pygame.time.delay(150)
-
-# Auto transition from P33 to P46
-page_list4 = ["P33.png", "P34.png", "P35.png", "P36.png", "P37.png",
-              "P38.png", "P39.png", "P40.png", "P41.png", "P42.png",
-              "P43.png", "P44.png", "P45.png", "P46.png"]
-
-# Looping through the list and displing each image with a delay
-for page in page_list4:
-    display_page(page)
-    pygame.display.flip()
-    pygame.time.delay(150)
-
-# Button on P46
-p46_button1 = pygame.Rect(454, 370, 84, 45) # "Ok"
-
-# Transition with button to P47
-if click1(p46_button1):
-    display_page("P47.png")
-    pygame.display.flip()
-
-# Buttons on P47
-p47_button1 = pygame.Rect(128, 300, 176, 74) # "Food" - wrong
-p47_button2 = pygame.Rect(351, 300, 176, 74) # "Age" - wrong
-p47_button3 = pygame.Rect(176, 410, 303, 74) # "Footsteps" - correct
-p47_click = click3(p47_button1, p47_button2, p47_button3)
-
-# Showing if correct (green) or wrong (red)
-if p47_click == 1:
-    display_page("P47-1.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
-elif p47_click == 2:
-    display_page("P47-2.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
-elif p47_click == 3:
-    display_page("P47-3.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
-
-# Transition with button 1 and 2 to P87 then P1-2
-if p47_click == 1 or p47_click == 2:
-    # Display P87
-    display_page("P87.png")
-    pygame.display.flip()
-    pygame.time.delay(1500)
-
-    # Display P1-2
-    display_page("P1-2.png")
-    pygame.display.flip()
-
-    # Buttons on P1-2
-    p1_2_button1 = pygame.Rect(414, 281, 239, 53) # "Play"
-    p1_2_button2 = pygame.Rect(472, 352, 122, 35) # "Level 1"
-    p1_2_button3 = pygame.Rect(472, 397, 122, 35) # "Level 2"
-    p1_2_click = click3(p1_2_button1, p1_2_button2, p1_2_button3)
-
-    # Repeating whole game
-    if p1_2_click == 1:
-        repeat_game2()
-    # Repeating level 1 and then level 2
-    elif p1_2_click == 2:
-        repeat_levels_1_2()
-    # Repeating level 2
-    elif p1_2_click == 3:
-        repeat_level2()
-
-# Transition to P48
-display_page("P48.png")
-pygame.display.flip()
-
-# Button on P48
-p48_button1 = pygame.Rect(454, 370, 84, 45) # "Start"
-
-# Transition with button to P49
-if click1(p48_button1):
-    display_page("P49.png")
-    pygame.display.flip()
-
-# Auto transition from P49 to P53
-# Play Level 3 on P54
-level3()
-pygame.time.delay(150)
-
-# Auto transition from P33 to P46
-page_list5 = ["P55.png", "P56.png", "P57.png", "P58.png", "P59.png",
-              "P60.png", "P62.png", "P62.png", "P63.png", "P64.png",
-              "P65.png", "P66.png", "P67.png", "P68.png"]
-
-# Looping through the list and displing each image with a delay
-for page in page_list5:
-    display_page(page)
-    pygame.display.flip()
-    pygame.time.delay(150)
-
-# Button on P68
-p68_button1 = pygame.Rect(454, 370, 84, 45) # "Ok"
-
-# Transition with button to P69
-if click1(p68_button1):
-    display_page("P69.png")
-    pygame.display.flip()
-
-# Buttons on P69
-p69_button1 = pygame.Rect(99, 319, 176, 74) # "Rain" - wrong
-p69_button2 = pygame.Rect(298, 319, 258, 74) # "Darkness" - correct
-p69_button3 = pygame.Rect(176, 430, 303, 74) # "Sunlight" - wrong
-p69_click = click3(p69_button1, p69_button2, p69_button3)
-
-# Showing if correct (green) or wrong (red)
-if p69_click == 1:
-    display_page("P69-1.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
-elif p69_click == 2:
-    display_page("P69-2.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
-elif p69_click == 3:
-    display_page("P69-3.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
-
-# Transition with button 1 and 3 to P89 then P1-3
-if p69_click == 1 or p69_click == 3:
-    # Display P89
-    display_page("P89.png")
-    pygame.display.flip()
-    pygame.time.delay(1500)
-
-    # Display P1-3
-    display_page("P1-3.png")
-    pygame.display.flip()
-
-    # Buttons on P1-3
-    p1_3_button1_1 = pygame.Rect(414, 281, 239, 53) # "Play"
-    p1_3_button2_1 = pygame.Rect(472, 352, 122, 35) # "Level 1"
-    p1_3_button3_1 = pygame.Rect(472, 397, 122, 35) # "Level 2"
-    p1_3_button4_1 = pygame.Rect(472, 441, 122, 35) # "Level 3"
-    p1_3_click_1 = click4(p1_3_button1_1, p1_3_button2_1, p1_3_button3_1, p1_3_button4_1)
-
-    # Repeating whole game
-    if p1_3_click_1 == 1:
-        repeat_game3()
-    # Repeating level 1, level 2, and then level 3
-    elif p1_3_click_1 == 2:
-        repeat_levels_1_2_3()
-    # Repeating level 2 and then level 3
-    elif p1_3_click_1 == 3:
-        repeat_levels_2_3()
-    # Repeating level 3
-    elif p1_3_click_1 == 4:
-        repeat_level3()
-
-# Transition to P70
-display_page("P70.png")
-pygame.display.flip()
-
-# Button on P70
-p70_button1 = pygame.Rect(454, 370, 84, 45) # "Go"
-
-# Transition with button to P71
-if click1(p70_button1):
-    display_page("P71.png")
-    pygame.display.flip()
-
-# Button on P71
-p71_button1 = pygame.Rect(382, 392, 84, 45) # "Ok"
-
-# Transition with button to P50
-if click1(p71_button1):
-    display_page("P72.png")
-    pygame.display.flip()
-
-# Buttons on P72
-p72_button1 = pygame.Rect(128, 319, 176, 74) # "Coins" - wrong
-p72_button2 = pygame.Rect(351, 319, 176, 74) # "Time" - wrong
-p72_button3 = pygame.Rect(176, 430, 303, 74) # "Secret" - correct
-p72_click = click3(p72_button1, p72_button2, p72_button3)
-
-# Showing if correct (green) or wrong (red)
-if p72_click == 1:
-    display_page("P72-1.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
-elif p72_click == 2:
-    display_page("P72-2.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
-elif p72_click == 3:
-    display_page("P72-3.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
-
-# Transition with button 1 and 2 to P90
-if p72_click == 1 or p72_click == 2:
-    display_page("P90.png")
-    pygame.display.flip()
-
-    # Button on P90
-    p64_button1 = pygame.Rect(414, 324, 239, 53) # "Restart"
-
-    # Transition with button to P1-3
-    if click1(p64_button1):
-        # Display P1-3
-        display_page("P1-3.png")
+        # Transition to P26
+        display_page("P26.png")
         pygame.display.flip()
 
-        # Buttons on P1-3
-        p1_3_button1_2 = pygame.Rect(414, 281, 239, 53) # "Play"
-        p1_3_button2_2 = pygame.Rect(472, 352, 122, 35) # "Level 1"
-        p1_3_button3_2 = pygame.Rect(472, 397, 122, 35) # "Level 2"
-        p1_3_button4_2 = pygame.Rect(472, 441, 122, 35) # "Level 3"
-        p1_3_click_2 = click4(p1_3_button1_2, p1_3_button2_2, p1_3_button3_2, p1_3_button4_2)
+        # Button on P26
+        p26_button1 = pygame.Rect(454, 370, 84, 45) # "Start"
 
-        # Repeating whole game
-        if p1_3_click_2 == 1:
-            repeat_game4()
-        # Repeating level 1, level 2, level 3, and then evil leprechaun
-        elif p1_3_click_2 == 2:
-            repeat_levels_1_2_3_L()
-        # Repeating level 2, level 3, and then evil leprechaun
-        elif p1_3_click_2 == 3:
-            repeat_levels_2_3_L()
-        # Repeating level 3 and then evil leprechaun
-        elif p1_3_click_2 == 4:
-            repeat_levels_3_L()
+        # Transition with button to P27
+        if click1(p26_button1):
+            display_page("P27.png")
+            pygame.display.flip()
 
-# Transition to P73
-display_page("P73.png")
-pygame.display.flip()
+        # Auto transition from P27 to P31
+        # Play Level 2 on P32
+        level2()
+        pygame.time.delay(150)
 
-# Button on P73
-p73_button1 = pygame.Rect(382, 392, 84, 45) # "Ok"
+        # Auto transition from P33 to P46
+        page_list4 = ["P33.png", "P34.png", "P35.png", "P36.png", "P37.png",
+                    "P38.png", "P39.png", "P40.png", "P41.png", "P42.png",
+                    "P43.png", "P44.png", "P45.png", "P46.png"]
 
-# Transition with button to P74
-if click1(p73_button1):
-    display_page("P74.png")
-    pygame.display.flip()
+        # Looping through the list and displing each image with a delay
+        for page in page_list4:
+            display_page(page)
+            pygame.display.flip()
+            pygame.time.delay(150)
 
-# Button on P74
-p74_button1 = pygame.Rect(675, 362, 112, 45) # "Collect"
+        # Button on P46
+        p46_button1 = pygame.Rect(454, 370, 84, 45) # "Ok"
 
-# Transition with button to P75
-if click1(p74_button1):
-    display_page("P75.png")
-    pygame.display.flip()
-    pygame.time.delay(500)
+        # Transition with button to P47
+        if click1(p46_button1):
+            display_page("P47.png")
+            pygame.display.flip()
 
-# Auto transition from P76 to P82
-page_list6 = ["P76.png", "P77.png", "P78.png", "P79.png", "P80.png",
-              "P81.png", "P82.png"]
+        # Buttons on P47
+        p47_button1 = pygame.Rect(128, 300, 176, 74) # "Food" - wrong
+        p47_button2 = pygame.Rect(351, 300, 176, 74) # "Age" - wrong
+        p47_button3 = pygame.Rect(176, 410, 303, 74) # "Footsteps" - correct
+        p47_click = click3(p47_button1, p47_button2, p47_button3)
 
-# Looping through the list and displing each image with a delay
-for page in page_list6:
-    display_page(page)
-    pygame.display.flip()
-    pygame.time.delay(500)
+        # Showing if correct (green) or wrong (red)
+        if p47_click == 1:
+            display_page("P47-1.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
+        elif p47_click == 2:
+            display_page("P47-2.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
+        elif p47_click == 3:
+            display_page("P47-3.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
 
-# Button on P82
-p82_button1 = pygame.Rect(753, 355, 84, 45) # "Ok"
+        # Transition with button 1 and 2 to P87 then P1-2
+        if p47_click == 1 or p47_click == 2:
+            # Display P87
+            display_page("P87.png")
+            pygame.display.flip()
+            pygame.time.delay(1500)
 
-# Transition with button to P83
-if click1(p82_button1):
-    display_page("P83.png")
-    pygame.display.flip()
+            # Display P1-2
+            display_page("P1-2.png")
+            pygame.display.flip()
 
-# Button on P83
-p83_button1 = pygame.Rect(414, 281, 239, 53) # "Play Again"
+            # Buttons on P1-2
+            p1_2_button1 = pygame.Rect(414, 281, 239, 53) # "Play"
+            p1_2_button2 = pygame.Rect(472, 352, 122, 35) # "Level 1"
+            p1_2_button3 = pygame.Rect(472, 397, 122, 35) # "Level 2"
+            p1_2_click = click3(p1_2_button1, p1_2_button2, p1_2_button3)
 
-# Restart if button is clicked
-if click1(p83_button1):
-    # Display P1-3
-    display_page("P1-3.png")
-    pygame.display.flip()
+            # Repeating whole game
+            if p1_2_click == 1:
+                repeat_game2()
+            # Repeating level 1 and then level 2
+            elif p1_2_click == 2:
+                repeat_levels_1_2()
+            # Repeating level 2
+            elif p1_2_click == 3:
+                repeat_level2()
 
-    # Buttons on P1-3
-    # Buttons on P1-3
-    p1_3_button1_3 = pygame.Rect(414, 281, 239, 53) # "Play"
-    p1_3_button2_3 = pygame.Rect(472, 352, 122, 35) # "Level 1"
-    p1_3_button3_3 = pygame.Rect(472, 397, 122, 35) # "Level 2"
-    p1_3_button4_3 = pygame.Rect(472, 441, 122, 35) # "Level 3"
-    p1_3_click_3 = click4(p1_3_button1_3, p1_3_button2_3, p1_3_button3_3, p1_3_button4_3)
+        # Transition to P48
+        display_page("P48.png")
+        pygame.display.flip()
 
-    # Repeating whole game
-    if p1_3_click_3 == 1:
-        repeat_game5()
-    # Repeating level 1 and then level 2
-    elif p1_3_click_3 == 2:
-        repeat_levels_1_2_3_L_end()
-    # Repeating level 2
-    elif p1_3_click_3 == 3:
-        repeat_levels_2_3_L_end()
-    # Repeating
-    elif p1_3_click_3 == 4:
-        repeat_levels_3_L_end()
+        # Button on P48
+        p48_button1 = pygame.Rect(454, 370, 84, 45) # "Start"
 
-# Looping the game
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        # Transition with button to P49
+        if click1(p48_button1):
+            display_page("P49.png")
+            pygame.display.flip()
 
-    # Updating the display
-    pygame.display.flip()
+        # Auto transition from P49 to P53
+        # Play Level 3 on P54
+        level3()
+        pygame.time.delay(150)
 
-# Quitting
-pygame.quit()
-sys.exit()
+        # Auto transition from P33 to P46
+        page_list5 = ["P55.png", "P56.png", "P57.png", "P58.png", "P59.png",
+                    "P60.png", "P62.png", "P62.png", "P63.png", "P64.png",
+                    "P65.png", "P66.png", "P67.png", "P68.png"]
+
+        # Looping through the list and displing each image with a delay
+        for page in page_list5:
+            display_page(page)
+            pygame.display.flip()
+            pygame.time.delay(150)
+
+        # Button on P68
+        p68_button1 = pygame.Rect(454, 370, 84, 45) # "Ok"
+
+        # Transition with button to P69
+        if click1(p68_button1):
+            display_page("P69.png")
+            pygame.display.flip()
+
+        # Buttons on P69
+        p69_button1 = pygame.Rect(99, 319, 176, 74) # "Rain" - wrong
+        p69_button2 = pygame.Rect(298, 319, 258, 74) # "Darkness" - correct
+        p69_button3 = pygame.Rect(176, 430, 303, 74) # "Sunlight" - wrong
+        p69_click = click3(p69_button1, p69_button2, p69_button3)
+
+        # Showing if correct (green) or wrong (red)
+        if p69_click == 1:
+            display_page("P69-1.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
+        elif p69_click == 2:
+            display_page("P69-2.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
+        elif p69_click == 3:
+            display_page("P69-3.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
+
+        # Transition with button 1 and 3 to P89 then P1-3
+        if p69_click == 1 or p69_click == 3:
+            # Display P89
+            display_page("P89.png")
+            pygame.display.flip()
+            pygame.time.delay(1500)
+
+            # Display P1-3
+            display_page("P1-3.png")
+            pygame.display.flip()
+
+            # Buttons on P1-3
+            p1_3_button1_1 = pygame.Rect(414, 281, 239, 53) # "Play"
+            p1_3_button2_1 = pygame.Rect(472, 352, 122, 35) # "Level 1"
+            p1_3_button3_1 = pygame.Rect(472, 397, 122, 35) # "Level 2"
+            p1_3_button4_1 = pygame.Rect(472, 441, 122, 35) # "Level 3"
+            p1_3_click_1 = click4(p1_3_button1_1, p1_3_button2_1, p1_3_button3_1, p1_3_button4_1)
+
+            # Repeating whole game
+            if p1_3_click_1 == 1:
+                repeat_game3()
+            # Repeating level 1, level 2, and then level 3
+            elif p1_3_click_1 == 2:
+                repeat_levels_1_2_3()
+            # Repeating level 2 and then level 3
+            elif p1_3_click_1 == 3:
+                repeat_levels_2_3()
+            # Repeating level 3
+            elif p1_3_click_1 == 4:
+                repeat_level3()
+
+        # Transition to P70
+        display_page("P70.png")
+        pygame.display.flip()
+
+        # Button on P70
+        p70_button1 = pygame.Rect(454, 370, 84, 45) # "Go"
+
+        # Transition with button to P71
+        if click1(p70_button1):
+            display_page("P71.png")
+            pygame.display.flip()
+
+        # Button on P71
+        p71_button1 = pygame.Rect(382, 392, 84, 45) # "Ok"
+
+        # Transition with button to P50
+        if click1(p71_button1):
+            display_page("P72.png")
+            pygame.display.flip()
+
+        # Buttons on P72
+        p72_button1 = pygame.Rect(128, 319, 176, 74) # "Coins" - wrong
+        p72_button2 = pygame.Rect(351, 319, 176, 74) # "Time" - wrong
+        p72_button3 = pygame.Rect(176, 430, 303, 74) # "Secret" - correct
+        p72_click = click3(p72_button1, p72_button2, p72_button3)
+
+        # Showing if correct (green) or wrong (red)
+        if p72_click == 1:
+            display_page("P72-1.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
+        elif p72_click == 2:
+            display_page("P72-2.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
+        elif p72_click == 3:
+            display_page("P72-3.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
+
+        # Transition with button 1 and 2 to P90
+        if p72_click == 1 or p72_click == 2:
+            display_page("P90.png")
+            pygame.display.flip()
+
+            # Button on P90
+            p64_button1 = pygame.Rect(414, 324, 239, 53) # "Restart"
+
+            # Transition with button to P1-3
+            if click1(p64_button1):
+                # Display P1-3
+                display_page("P1-3.png")
+                pygame.display.flip()
+
+                # Buttons on P1-3
+                p1_3_button1_2 = pygame.Rect(414, 281, 239, 53) # "Play"
+                p1_3_button2_2 = pygame.Rect(472, 352, 122, 35) # "Level 1"
+                p1_3_button3_2 = pygame.Rect(472, 397, 122, 35) # "Level 2"
+                p1_3_button4_2 = pygame.Rect(472, 441, 122, 35) # "Level 3"
+                p1_3_click_2 = click4(p1_3_button1_2, p1_3_button2_2, p1_3_button3_2, p1_3_button4_2)
+
+                # Repeating whole game
+                if p1_3_click_2 == 1:
+                    repeat_game4()
+                # Repeating level 1, level 2, level 3, and then evil leprechaun
+                elif p1_3_click_2 == 2:
+                    repeat_levels_1_2_3_L()
+                # Repeating level 2, level 3, and then evil leprechaun
+                elif p1_3_click_2 == 3:
+                    repeat_levels_2_3_L()
+                # Repeating level 3 and then evil leprechaun
+                elif p1_3_click_2 == 4:
+                    repeat_levels_3_L()
+
+        # Transition to P73
+        display_page("P73.png")
+        pygame.display.flip()
+
+        # Button on P73
+        p73_button1 = pygame.Rect(382, 392, 84, 45) # "Ok"
+
+        # Transition with button to P74
+        if click1(p73_button1):
+            display_page("P74.png")
+            pygame.display.flip()
+
+        # Button on P74
+        p74_button1 = pygame.Rect(675, 362, 112, 45) # "Collect"
+
+        # Transition with button to P75
+        if click1(p74_button1):
+            display_page("P75.png")
+            pygame.display.flip()
+            pygame.time.delay(500)
+
+        # Auto transition from P76 to P82
+        page_list6 = ["P76.png", "P77.png", "P78.png", "P79.png", "P80.png",
+                    "P81.png", "P82.png"]
+
+        # Looping through the list and displing each image with a delay
+        for page in page_list6:
+            display_page(page)
+            pygame.display.flip()
+            pygame.time.delay(500)
+
+        # Button on P82
+        p82_button1 = pygame.Rect(753, 355, 84, 45) # "Ok"
+
+        # Transition with button to P83
+        if click1(p82_button1):
+            display_page("P83.png")
+            pygame.display.flip()
+
+        # Button on P83
+        p83_button1 = pygame.Rect(414, 281, 239, 53) # "Play Again"
+
+        # Restart if button is clicked
+        if click1(p83_button1):
+            # Display P1-3
+            display_page("P1-3.png")
+            pygame.display.flip()
+
+            # Buttons on P1-3
+            # Buttons on P1-3
+            p1_3_button1_3 = pygame.Rect(414, 281, 239, 53) # "Play"
+            p1_3_button2_3 = pygame.Rect(472, 352, 122, 35) # "Level 1"
+            p1_3_button3_3 = pygame.Rect(472, 397, 122, 35) # "Level 2"
+            p1_3_button4_3 = pygame.Rect(472, 441, 122, 35) # "Level 3"
+            p1_3_click_3 = click4(p1_3_button1_3, p1_3_button2_3, p1_3_button3_3, p1_3_button4_3)
+
+            # Repeating whole game
+            if p1_3_click_3 == 1:
+                repeat_game5()
+            # Repeating level 1 and then level 2
+            elif p1_3_click_3 == 2:
+                repeat_levels_1_2_3_L_end()
+            # Repeating level 2
+            elif p1_3_click_3 == 3:
+                repeat_levels_2_3_L_end()
+            # Repeating
+            elif p1_3_click_3 == 4:
+                repeat_levels_3_L_end()
+
+        # Update the display
+        pygame.display.flip()
+
+        # For web page
+        await asyncio.sleep(0)
+
+asyncio.run(main())
