@@ -2519,6 +2519,6 @@ async def main():
         pygame.display.flip()
 
         # For web page
-    await asyncio.sleep(0)
+        await asyncio.sleep(0)
 
 asyncio.run(main())
