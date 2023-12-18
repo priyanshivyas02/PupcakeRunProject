@@ -2083,7 +2083,7 @@ async def main():
 
         # Load audio file
         dictionary = os.path.join(os.path.dirname(os.path.realpath(__file__)))
-        path = os.path.join(os.path.join(dictionary), "Soundtrack.ogg")
+        path = os.path.join(os.path.join(dictionary), "Soundtrack.mp3")
         mixer.music.load(path)
 
         # Set preferred volume
