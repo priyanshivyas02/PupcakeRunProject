@@ -1,5 +1,4 @@
 # IMPORTS
-import asyncio
 import pygame
 import sys
 import os
@@ -33,12 +32,9 @@ def display_page(image_filename):
     desired_width, desired_height = 1066, 600
     # Scaling the image to the desired size
     scaled_image = pygame.transform.scale(original_image, (desired_width, desired_height))
-    # Calculating the position to center the image on the screen
-    x_pos = (width - scaled_image.get_width()) // 2
-    y_pos = (height - scaled_image.get_height()) // 2
-
+    
     # Drawing the scalred image on the screen and centering it
-    screen.blit(scaled_image, (x_pos, y_pos))
+    screen.blit(scaled_image, (0, 0))
 
 # Function to display Sprinkles
 def display_sprinkles(image_filename):
@@ -2069,8 +2065,7 @@ def repeat_game5():
     repeat_levels_1_2_3_L_end()
 
 # Function for web page
-async def main():
-    # GAME
+def main():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -2078,20 +2073,13 @@ async def main():
                 sys.exit()
         
         # MUSIC
-        # Instantiate mixer
         mixer.init()
-
-        # Load audio file
         dictionary = os.path.join(os.path.dirname(os.path.realpath(__file__)))
-        path = os.path.join(os.path.join(dictionary), "Soundtrack.mp3")
-        mixer.music.load(path)
+        path = os.path.join(os.path.join(dictionary), "Soundtrack.ogg")
+        soundtrack = pygame.mixer.Sound(path)
+        soundtrack.play(loops=-1)
 
-        # Set preferred volume
-        mixer.music.set_volume(0.5)
-
-        # Play the music
-        mixer.music.play(-1)
-
+        # GAME
         # Display P1
         display_page("P1.png")
         pygame.display.flip()
@@ -2518,7 +2506,5 @@ async def main():
         # Update the display
         pygame.display.flip()
 
-        # For web page
-        await asyncio.sleep(0)
-
-asyncio.run(main())
+# Running Game
+main()
