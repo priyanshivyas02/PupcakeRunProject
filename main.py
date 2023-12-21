@@ -436,7 +436,7 @@ class Cupcake(pygame.sprite.Sprite):
 # LEVELS
 # Getting background for Level 1
 dictionary1 = os.path.join(os.path.dirname(os.path.realpath(__file__)))
-path1 = os.path.join(os.path.join(dictionary1), "Pupcake Run Images\Pages\P10.png")
+path1 = os.path.join(os.path.join(dictionary1), "Pupcake Run Images", "Pages", "P10.png")
 original_background1 = pygame.image.load(path1)
 scale_width = width / 1066
 scale_height = height / 600
@@ -549,7 +549,7 @@ def level1():
 
 # Getting background for Level 2
 dictionary2 = os.path.join(os.path.dirname(os.path.realpath(__file__)))
-path2 = os.path.join(os.path.join(dictionary2), "Pupcake Run Images\Pages\P32.png")
+path2 = os.path.join(os.path.join(dictionary2), "Pupcake Run Images", "Pages", "P32.png")
 original_background2 = pygame.image.load(path2)
 background2 = pygame.transform.scale(original_background2, (int(1066 * scale_factor), int(600 * scale_factor)))
 
@@ -659,7 +659,7 @@ def level2():
 
 # Getting background for Level 3
 dictionary3 = os.path.join(os.path.dirname(os.path.realpath(__file__)))
-path3 = os.path.join(os.path.join(dictionary3), "Pupcake Run Images\Pages\P54.png")
+path3 = os.path.join(os.path.join(dictionary3), "Pupcake Run Images", "Pages", "P54.png")
 original_background3 = pygame.image.load(path3)
 background3 = pygame.transform.scale(original_background3, (int(1066 * scale_factor), int(600 * scale_factor)))
 
