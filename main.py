@@ -56,8 +56,13 @@ def display_page(image_filename):
     # Loading the image
     original_image = pygame.image.load(image_path)
     
+    # Calculate scaling factors for width and height
+    scale_width = width / 1066
+    scale_height = height / 600
+    # Choose the smaller scaling factor to maintain the original aspect ratio
+    scale_factor = min(scale_width, scale_height)
     # Scale the image
-    scaled_image = pygame.transform.scale(original_image, (width, height))
+    scaled_image = pygame.transform.scale(original_image, (int(1066 * scale_factor), int(600 * scale_factor)))
 
     # Drawing the scalred image on the screen
     screen.blit(scaled_image, (0, 0))
@@ -170,6 +175,10 @@ def click1(dimensions):
     # Make acceptable coordinates
     original_rect = pygame.Rect(dimensions)
     coordinates = pygame.Rect(scale(original_rect))
+
+    # color = (255, 0, 0) # DELETE AT THE END
+    # pygame.draw.rect(screen, color, coordinates) # DELETE AT THE END
+    # pygame.display.flip() # DELETE AT THE END
 
     clicked_button = None
     # Waiting for button to be clicked
@@ -426,10 +435,13 @@ class Cupcake(pygame.sprite.Sprite):
 # FUNCTIONS
 # LEVELS
 # Getting background for Level 1
-directory1 = os.path.dirname(os.path.realpath(__file__))
-path1 = os.path.join(directory1, "Pupcake Run Images", "Pages", "P10.png")
-original_image1 = pygame.image.load(path1)
-background1 = pygame.transform.scale(original_image1, (width, height))
+dictionary1 = os.path.join(os.path.dirname(os.path.realpath(__file__)))
+path1 = os.path.join(os.path.join(dictionary1), "Pupcake Run Images\Pages\P10.png")
+original_background1 = pygame.image.load(path1)
+scale_width = width / 1066
+scale_height = height / 600
+scale_factor = min(scale_width, scale_height)
+background1 = pygame.transform.scale(original_background1, (int(1066 * scale_factor), int(600 * scale_factor)))
 
 # Making socre and highscore for Level 1
 score_system1 = Timer()
@@ -536,10 +548,10 @@ def level1():
                 level1()
 
 # Getting background for Level 2
-directory2 = os.path.dirname(os.path.realpath(__file__))
-path2 = os.path.join(directory2, "Pupcake Run Images", "Pages", "P32.png")
-original_image2 = pygame.image.load(path2)
-background2 = pygame.transform.scale(original_image2, (width, height))
+dictionary2 = os.path.join(os.path.dirname(os.path.realpath(__file__)))
+path2 = os.path.join(os.path.join(dictionary2), "Pupcake Run Images\Pages\P32.png")
+original_background2 = pygame.image.load(path2)
+background2 = pygame.transform.scale(original_background2, (int(1066 * scale_factor), int(600 * scale_factor)))
 
 # Making socre and highscore for Level 2
 score_system2 = Timer()
@@ -646,10 +658,10 @@ def level2():
                 level2()
 
 # Getting background for Level 3
-directory3 = os.path.dirname(os.path.realpath(__file__))
-path3 = os.path.join(directory2, "Pupcake Run Images", "Pages", "P54.png")
-original_image3 = pygame.image.load(path3)
-background3 = pygame.transform.scale(original_image3, (width, height))
+dictionary3 = os.path.join(os.path.dirname(os.path.realpath(__file__)))
+path3 = os.path.join(os.path.join(dictionary3), "Pupcake Run Images\Pages\P54.png")
+original_background3 = pygame.image.load(path3)
+background3 = pygame.transform.scale(original_background3, (int(1066 * scale_factor), int(600 * scale_factor)))
 
 # Making socre and highscore for Level 3
 score_system3 = Timer()
