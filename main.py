@@ -8,10 +8,17 @@ import random
 # Initialize Pygame
 pygame.init()
 
-# Set up display
+# Scale for display
 width = pygame.display.Info().current_w
 height = pygame.display.Info().current_h
-screen = pygame.display.set_mode((width, height))
+scalew = width / 1066
+scaleh = height / 600
+scalefactor = min(scalew, scaleh)
+
+# Set up display
+screen_width = int(1066 * scalefactor)
+screen_height =  int(600 * scalefactor)
+screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Pupcake Run")
 
 # FUNCTIONS
@@ -164,6 +171,27 @@ def display_cupcake():
 
     # Setting the desired size
     desired_width, desired_height = scale_num(32), scale_num(40)
+    # Scaling the image to the desired size
+    scaled_image = pygame.transform.scale(original_image, (desired_width, desired_height))
+
+    return scaled_image
+
+# Function to display cupcake
+def display_box(name):
+    # Getting the current working directory
+    current_directory = os.path.dirname(os.path.realpath(__file__))
+    # Specifying the folder names where the image is located
+    images_folder = "Pupcake Run Images"
+    image_filename = name
+    # Combining the current directory with the folder names and filenames
+    image_path = os.path.join(current_directory, images_folder, image_filename)
+    # Loading the image
+    original_image = pygame.image.load(image_path)
+
+    # Setting the desired size
+    desired_height = scale_num(1066)
+    aspect_ratio = original_image.get_height() / original_image.get_width()
+    desired_width = int(desired_height / aspect_ratio)
     # Scaling the image to the desired size
     scaled_image = pygame.transform.scale(original_image, (desired_width, desired_height))
 
@@ -335,7 +363,7 @@ class Sprinkles(pygame.sprite.Sprite):
         self.rect.x = scale_num(37)
         self.rect.y = scale_num(357)
         self.jump = False
-        self.jump_height = scale_num(20)
+        self.jump_height = scale_num(14)
         self.jump_count = scale_num(14)
         self.animation_timer = pygame.time.get_ticks()
         self.animation_interval = 150
@@ -350,15 +378,19 @@ class Sprinkles(pygame.sprite.Sprite):
         # Jumping
         if self.jump:
             if self.jump_count >= -self.jump_height:
-                direction = scale_num(1)
+                direction = 1
                 if self.jump_count < 0:
-                    direction = -(scale_num(1))
-                self.rect.y -= (self.jump_count ** scale_num(2)) * direction / scale_num(5)
-                self.jump_count -= scale_num(1)
+                    direction = -1
+                self.rect.y -= (self.jump_count ** 2) * direction / 5
+                self.jump_count -= 1
             else:
                 self.jump = False
-                self.jump_count = scale_num(14)
+                self.jump_count = scale_num(13)
 
+        # Gravity to bring the character back down
+        if not self.jump and self.rect.y < scale_num(357):
+            self.rect.y += scale_num(5)
+        
         # Ensure the dinosaur stays on the ground
         if self.rect.y > scale_num(357):
             self.rect.y = scale_num(357)
@@ -438,10 +470,7 @@ class Cupcake(pygame.sprite.Sprite):
 dictionary1 = os.path.join(os.path.dirname(os.path.realpath(__file__)))
 path1 = os.path.join(os.path.join(dictionary1), "Pupcake Run Images", "Pages", "P10.png")
 original_background1 = pygame.image.load(path1)
-scale_width = width / 1066
-scale_height = height / 600
-scale_factor = min(scale_width, scale_height)
-background1 = pygame.transform.scale(original_background1, (int(1066 * scale_factor), int(600 * scale_factor)))
+background1 = pygame.transform.scale(original_background1, (screen_width, screen_height))
 
 # Making socre and highscore for Level 1
 score_system1 = Timer()
@@ -492,9 +521,8 @@ def level1():
             if event.type == pygame.QUIT:
                 running = False
             # Checking if mouse is clicked for jump
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if not sprinkles.jump:
-                    sprinkles.jump = True
+            if event.type == pygame.MOUSEBUTTONDOWN and not sprinkles.jump:
+                sprinkles.jump = True
 
         # Update
         all_sprites.update()
@@ -551,7 +579,7 @@ def level1():
 dictionary2 = os.path.join(os.path.dirname(os.path.realpath(__file__)))
 path2 = os.path.join(os.path.join(dictionary2), "Pupcake Run Images", "Pages", "P32.png")
 original_background2 = pygame.image.load(path2)
-background2 = pygame.transform.scale(original_background2, (int(1066 * scale_factor), int(600 * scale_factor)))
+background2 = pygame.transform.scale(original_background2, (screen_width, screen_height))
 
 # Making socre and highscore for Level 2
 score_system2 = Timer()
@@ -661,7 +689,7 @@ def level2():
 dictionary3 = os.path.join(os.path.dirname(os.path.realpath(__file__)))
 path3 = os.path.join(os.path.join(dictionary3), "Pupcake Run Images", "Pages", "P54.png")
 original_background3 = pygame.image.load(path3)
-background3 = pygame.transform.scale(original_background3, (int(1066 * scale_factor), int(600 * scale_factor)))
+background3 = pygame.transform.scale(original_background3, (screen_width, screen_height))
 
 # Making socre and highscore for Level 3
 score_system3 = Timer()
@@ -776,7 +804,7 @@ def repeat_start():
 
     # Buttons on P2
     p2_button1 = 328, 393, 84, 45 # "Yes"
-    p2_button2 = 909, 531, 124, 53 # "Skip"
+    p2_button2 = 909, 492, 124, 53 # "Skip"
     p2_click = click2(p2_button1, p2_button2)
 
     # Transition with button 1 to P3
@@ -2152,7 +2180,7 @@ def main():
 
         # Buttons on P2
         p2_button1 = 328, 393, 84, 45 # "Yes"
-        p2_button2 = 909, 531, 124, 53 # "Skip"
+        p2_button2 = 909, 492, 124, 53 # "Skip"
         p2_click = click2(p2_button1, p2_button2)
 
         # Transition with button 1 to P3
